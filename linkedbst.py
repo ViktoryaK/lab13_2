@@ -329,54 +329,39 @@ class LinkedBST(AbstractCollection):
         with open(path, 'r') as file:
             for line in file:
                 llst.append("".join(line.splitlines()))
-        w_1000 = llst[:1000]
-        w_1000_mixed = random.sample(w_1000, 1000)
+        random_10000 = []
+        for i in range(10000):
+            random_10000.append(random.choice(llst))
+        random_1000 = random_10000[:993]
+        random_1000_sorted = sorted(random_1000)
         start = time.time()
-        for _ in range(9999):
-            numb = random.randint(0, len(llst)-1)
-            it = llst[numb]
-            # llst.remove(llst[numb])
+        for word in random_10000:
+            m = llst.index(word)
         end = time.time()
         print("Time of searching 10000 words in the list = ", end-start)
         tree1 = LinkedBST()
-        for elem in w_1000:
+        for elem in random_1000_sorted:
             tree1.add(elem)
         start = time.time()
-        for j in range(999):
-            word = random.choice(w_1000)
+        for word in random_1000_sorted:
             tree1.find(word)
-            j += 1
         end = time.time()
-        print("Time of searching 10000 words in the sorted binary tree = ", (end - start)*10)
+        print("Time of searching 10000 words in the sorted binary tree = ", (end - start) * len(llst) / 1000)
         tree2 = LinkedBST()
-        for elem in w_1000_mixed:
+        for elem in random_1000:
             tree2.add(elem)
         start = time.time()
-        for j in range(999):
-            word = random.choice(w_1000_mixed)
+        for word in random_1000:
             tree2.find(word)
-            j += 1
         end = time.time()
-        print("Time of searching 10000 words in the binary tree = ", (end - start) * 10)
+        print("Time of searching 10000 words in the binary tree = ", (end - start) * len(llst) / 1000)
         tree1.rebalance()
         start = time.time()
-        for j in range(999):
-            word = random.choice(w_1000)
+        for word in random_1000_sorted:
             tree1.find(word)
-            j += 1
         end = time.time()
-        print("Time of searching 10000 words in the balanced binary tree = ", (end - start) * 10)
+        print("Time of searching 10000 words in the balanced binary tree = ", (end - start) * len(llst) / 1000)
 
-tree = LinkedBST()
-#
-# for i in range(9):
-#     tree.add(i)
-
-# print(tree)
-# # print(tree.height())
-# # print(tree.is_balanced())
-# tree.rebalance()
-# # print(tree.is_balanced())
-# print(tree)
-# print(list(tree.inorder()))
-tree.demo_bst('words.txt')
+if __name__ == "__main__":
+    tree = LinkedBST()
+    tree.demo_bst('words.txt')
